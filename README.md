@@ -1,1 +1,1 @@
-# python
+This is a Python test project
