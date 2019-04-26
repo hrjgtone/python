@@ -44,8 +44,6 @@ def read_sheet(filename):
 #
 #
 # ---------------------------------------------------------------------
-
-
 # 主界面UI设计
 def main_ui():
     root = Tk()
@@ -86,22 +84,22 @@ def main_ui():
 # ---------------------------------------------------------------------
 # 传递专业复选项的值并作出反馈
 def selected_major():
-    if (chVarOne.get() == 1):
+    global major
+    if chVarOne.get() == 1:
         major = "综合监控"
         # tx.insert(0,"综合监控")
-    elif (chVarTwo.get() == 1):
+    elif chVarTwo.get() == 1:
         major = "电力监控"
-    elif (chVarThree.get() == 1):
+    elif chVarThree.get() == 1:
         major = "其他"
-    elif (chVarOne.get() == 1 and chVarTwo.get() == 1):
+    elif chVarOne.get() == 1 and chVarTwo.get() == 1:
         major = "综合监控、电力监控"
-    elif (chVarOne.get() == 1 and chVarThree.get() == 1):
+    elif chVarOne.get() == 1 and chVarThree.get() == 1:
         major = "综合监控、其他"
-    elif (chVarThree.get() == 1 and chVarTwo.get() == 1):
+    elif chVarThree.get() == 1 and chVarTwo.get() == 1:
         major = "电力监控、其他"
-    elif (chVarOne.get() == 1 and chVarTwo.get() == 1 and chVarThree.get() == 1):
+    elif chVarOne.get() == 1 and chVarTwo.get() == 1 and chVarThree.get() == 1:
         major = "综合监控、电力监控、其他"
-    return major
 
 
 # 提取所选文件的绝对路径
