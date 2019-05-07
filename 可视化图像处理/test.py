@@ -1,9 +1,8 @@
 from pylab import *
 
-X = np.linspace(-np.pi, np.pi, 256,endpoint=True)
-C,S = np.cos(X), np.sin(X)
+X = (1, 3, 4, 5, 6, 7, 8)
+C = (2, 3, 4, 5, 6, 7, 8)
 
-plot(X,C)
-plot(X,S)
+scatter(X, C)
 
 show()
