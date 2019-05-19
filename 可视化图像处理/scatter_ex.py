@@ -10,8 +10,8 @@ from pylab import *
 import datetime
 # from openpyxl import load_workbook
 from pylab import *
-mpl.rcParams['font.sans-serif'] = ['SimHei']
 
+mpl.rcParams['font.sans-serif'] = ['SimHei']
 
 # ---------------------------------------------------------------------
 #   从文本中提取数据
@@ -21,8 +21,6 @@ mpl.rcParams['font.sans-serif'] = ['SimHei']
 
 data_wb = load_workbook('分析后数据表.xlsx')
 data_ws = data_wb['Sheet']
-
-
 
 # ---------------------------------------------------------------------
 #   使用散点图显示车站与时间之间的关系
@@ -98,41 +96,39 @@ plt.show()
 #   数据关键字：时间X、单位时间内故障总数Y
 #   data_ws_k为顺序统计单元格4中日期顺序临时变量
 # ---------------------------------------------------------------------
-date = {'一月':0,'二月':0,'三月':0,'四月':0,'五月':0,'六月':0,'七月':0,'八月':0,'九月':0,'十月':0,'十一月':0,'十二月':0}
+date = {'一月': 0, '二月': 0, '三月': 0, '四月': 0, '五月': 0, '六月': 0, '七月': 0, '八月': 0, '九月': 0, '十月': 0, '十一月': 0, '十二月': 0}
 
 for data_ws_k in range(data_ws.max_row):
-    if datetime.datetime(2019,1,1) <= data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,2,1):
-        date['一月'] = int(date['一月'])+1
-    elif datetime.datetime(2019,2,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,3,1):
-        date['二月'] = int(date['二月'])+1
-    elif datetime.datetime(2019,3,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,4,1):
-        date['三月'] = int(date['三月'])+1
-    elif datetime.datetime(2019,4,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,5,1):
-        date['四月'] = int(date['四月'])+1
-    elif datetime.datetime(2019,5,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,6,1):
-        date['五月'] = int(date['五月'])+1
-    elif datetime.datetime(2019,6,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,7,1):
-        date['六月'] = int(date['六月'])+1
-    elif datetime.datetime(2019,7,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,8,1):
-        date['七月'] = int(date['七月'])+1
-    elif datetime.datetime(2019,8,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,9,1):
-        date['八月'] = int(date['八月'])+1
-    elif datetime.datetime(2019,9,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,10,1):
-        date['九月'] = int(date['九月'])+1
-    elif datetime.datetime(2019,10,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,11,1):
-        date['十月'] = int(date['十月'])+1
-    elif datetime.datetime(2019,11,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2019,12,1):
-        date['十一月'] = int(date['十一月'])+1
-    elif datetime.datetime(2019,12,1) < data_ws.cell(data_ws_k+1, 4).value < datetime.datetime(2020,1,1):
-        date['十二月'] = int(date['十二月'])+1
-
+    if datetime.datetime(2019, 1, 1) <= data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 2, 1):
+        date['一月'] = int(date['一月']) + 1
+    elif datetime.datetime(2019, 2, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 3, 1):
+        date['二月'] = int(date['二月']) + 1
+    elif datetime.datetime(2019, 3, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 4, 1):
+        date['三月'] = int(date['三月']) + 1
+    elif datetime.datetime(2019, 4, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 5, 1):
+        date['四月'] = int(date['四月']) + 1
+    elif datetime.datetime(2019, 5, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 6, 1):
+        date['五月'] = int(date['五月']) + 1
+    elif datetime.datetime(2019, 6, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 7, 1):
+        date['六月'] = int(date['六月']) + 1
+    elif datetime.datetime(2019, 7, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 8, 1):
+        date['七月'] = int(date['七月']) + 1
+    elif datetime.datetime(2019, 8, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 9, 1):
+        date['八月'] = int(date['八月']) + 1
+    elif datetime.datetime(2019, 9, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 10, 1):
+        date['九月'] = int(date['九月']) + 1
+    elif datetime.datetime(2019, 10, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 11, 1):
+        date['十月'] = int(date['十月']) + 1
+    elif datetime.datetime(2019, 11, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2019, 12, 1):
+        date['十一月'] = int(date['十一月']) + 1
+    elif datetime.datetime(2019, 12, 1) < data_ws.cell(data_ws_k + 1, 4).value < datetime.datetime(2020, 1, 1):
+        date['十二月'] = int(date['十二月']) + 1
 
 figure()
 xlabel("月份")
 ylabel("月度故障总数")
 title("月度故障总数折线图")
 Y = list(date.values())
-X = ('一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月')
-plot(X,Y)
+X = ('一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月')
+plot(X, Y)
 show()
-
