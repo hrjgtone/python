@@ -9,39 +9,7 @@ from tkinter import *
 import tkinter.filedialog
 from tkinter import ttk
 import tkinter as tk
-
-
-
-# ---------------------------------------------------------------------
-#   后台运算类
-#
-#
-# ---------------------------------------------------------------------
-# 传递专业复选项的值并作出反馈
-def selected_major():
-    global major
-    if chVarOne.get() == 1:
-        major = "综合监控"
-        # tx.insert(0,"综合监控")
-    elif chVarTwo.get() == 1:
-        major = "电力监控"
-    elif chVarThree.get() == 1:
-        major = "其他"
-    elif chVarOne.get() == 1 and chVarTwo.get() == 1:
-        major = "综合监控、电力监控"
-    elif chVarOne.get() == 1 and chVarThree.get() == 1:
-        major = "综合监控、其他"
-    elif chVarThree.get() == 1 and chVarTwo.get() == 1:
-        major = "电力监控、其他"
-    elif chVarOne.get() == 1 and chVarTwo.get() == 1 and chVarThree.get() == 1:
-        major = "综合监控、电力监控、其他"
-    msg['text']=major
-
-# 提取所选文件的绝对路径
-def ui_send_filepath():
-    filename = tkinter.filedialog.askopenfilename()
-    read_sheet(filename)
-
+import os
 
 
 # ---------------------------------------------------------------------
@@ -57,7 +25,7 @@ def read_sheet(filename):
     wb2 = Workbook()
     wb2.save('分析后数据表.xlsx')
     # 定义所选文件名
-    wb1 = load_workbook(filename)
+    wb1 = load_workbook(filename, data_only=True)
     wb2 = load_workbook('分析后数据表.xlsx')
     # 定义所选表格中的sheel
     ws1 = wb1['故障、问题统计子表']
@@ -70,6 +38,38 @@ def read_sheet(filename):
             for j in range(ws1.max_column):
                 ws2.cell(k, j + 1).value = ws1.cell(ws1_i + 1, j + 1).value
     wb2.save('分析后数据表.xlsx')
+    os.system("scatter_ex.py")
+
+
+# ---------------------------------------------------------------------
+#   后台运算类
+#
+#
+# ---------------------------------------------------------------------
+# 传递专业复选项的值并作出反馈
+def selected_major():
+    global major
+    if chVarOne.get() == 1:
+        major = "综合监控"
+    elif chVarTwo.get() == 1:
+        major = "电力监控"
+    elif chVarThree.get() == 1:
+        major = "其他"
+    elif chVarOne.get() == 1 and chVarTwo.get() == 1:
+        major = "综合监控、电力监控"
+    elif chVarOne.get() == 1 and chVarThree.get() == 1:
+        major = "综合监控、其他"
+    elif chVarThree.get() == 1 and chVarTwo.get() == 1:
+        major = "电力监控、其他"
+    elif chVarOne.get() == 1 and chVarTwo.get() == 1 and chVarThree.get() == 1:
+        major = "综合监控、电力监控、其他"
+    print(major)
+
+
+# 提取所选文件的绝对路径
+def ui_send_filepath():
+    filename = tkinter.filedialog.askopenfilename()
+    read_sheet(filename)
 
 
 # ---------------------------------------------------------------------
@@ -77,14 +77,12 @@ def read_sheet(filename):
 #
 #
 # ---------------------------------------------------------------------
-# 主界面UI设计
 
+# 主界面UI设计
 root = Tk()
 root.title('故障分析系统')
 root.geometry('640x320')
-ttk.Label(root, text="选择专业:").grid(column=0, row=0)
-msg = ttk.Label(root, text="").grid(column=1, row=0)
-
+ttk.Label(root, text="选择专业:").grid(column=1, row=0)
 
 # 设置专业复选框
 global chVarOne
@@ -94,18 +92,19 @@ global chVarThree
 chVarOne = tk.IntVar()
 check1 = tk.Checkbutton(root, text="综合监控", variable=chVarOne, offvalue=0, onvalue=1, command=selected_major)
 check1.deselect()
-check1.grid(column=2, row=4, sticky=tk.W)
+check1.grid(column=0, row=4, sticky=tk.W)
 
 chVarTwo = tk.IntVar()
 check2 = tk.Checkbutton(root, text="电力监控", variable=chVarTwo, offvalue=0, onvalue=1, command=selected_major)
 check2.deselect()
-check2.grid(column=3, row=4, sticky=tk.W)
+check2.grid(column=1, row=4, sticky=tk.W)
 
 chVarThree = tk.IntVar()
 check3 = tk.Checkbutton(root, text="其他", variable=chVarThree, offvalue=0, onvalue=1, command=selected_major)
 check3.deselect()
-check3.grid(column=4, row=4, sticky=tk.W)
+check3.grid(column=2, row=4, sticky=tk.W)
 
 # 设置按钮并调用函数
-btn = Button(root, text='选择文件', command=ui_send_filepath).grid(column=5,row=4 )
+btn = Button(root, text='选择文件', command=ui_send_filepath).grid(row=320, column=640)
+
 root.mainloop()

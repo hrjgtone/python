@@ -1,67 +1,111 @@
-# tkinter复选框操作
+#!/usr/bin/env python3.7
+# -*- coding:  utf-8 -*-
+'a test project'
+__author__ = 'GTone'
 
+from openpyxl import Workbook
+from openpyxl import load_workbook
+from tkinter import *
+import tkinter.filedialog
+from tkinter import ttk
 import tkinter as tk
-
-root = tk.Tk()
-root.title('问卷调查')
-root.geometry('220x80')  # 设置窗口大小
-
-flag_1 = False
-flag_2 = False
-flag_3 = False
-list_content = ['你的爱好是：']
-hobby_list = ['游泳', '唱歌', '旅游']
+import os
 
 
-def click_1():
-    global flag_1
-    flag_1 = not flag_1
-    if flag_1:
-        list_content.append(hobby_list[0])
-    else:
-        list_content.remove(hobby_list[0])
-    # print('你的爱好是：', list_content)
-    lab_msg['text'] = list_content
+# ---------------------------------------------------------------------
+#   数据提取及处理类
+#
+#
+# ---------------------------------------------------------------------
 
 
-def click_2():
-    global flag_2
-    flag_2 = not flag_2
-    if flag_2:
-        list_content.append(hobby_list[1])
-    else:
-        list_content.remove(hobby_list[1])
-    # print('你的爱好是：', list_content)
-    lab_msg['text'] = list_content
+# 调取UI界面选择的xlsx文件数据并将综合监控专业相关数据列出保存至“分析后数据表”内
+def read_sheet(filename):
+    # 新建表格
+    wb2 = Workbook()
+    wb2.save('分析后数据表.xlsx')
+    # 定义所选文件名
+    wb1 = load_workbook(filename, data_only=True)
+    wb2 = load_workbook('分析后数据表.xlsx')
+    # 定义所选表格中的sheel
+    ws1 = wb1['故障、问题统计子表']
+    ws2 = wb2['Sheet']
+    k = 0
+    # 循环输出符合综合监控专业的故障
+    for ws1_i in range(ws1.max_row):
+        if ws1.cell(ws1_i + 1, 3).value == '综合监控' or ws1.cell(ws1_i + 1, 3).value == 'PSCADA':
+            k = k + 1
+            for j in range(ws1.max_column):
+                ws2.cell(k, j + 1).value = ws1.cell(ws1_i + 1, j + 1).value
+    wb2.save('分析后数据表.xlsx')
+    os.system("scatter_ex.py")
 
 
-def click_3():
-    global flag_3
-    flag_3 = not flag_3
-    if flag_3:
-        list_content.append(hobby_list[2])
-    else:
-        list_content.remove(hobby_list[2])
-    # print('你的爱好是：', list_content)
-    lab_msg['text'] = list_content
+# ---------------------------------------------------------------------
+#   后台运算类
+#
+#
+# ---------------------------------------------------------------------
+# 传递专业复选项的值并作出反馈
+def selected_major():
+    global major
+    if chVarOne.get() == 1:
+        major = "综合监控"
+    elif chVarTwo.get() == 1:
+        major = "电力监控"
+    elif chVarThree.get() == 1:
+        major = "其他"
+    elif chVarOne.get() == 1 and chVarTwo.get() == 1:
+        major = "综合监控、电力监控"
+    elif chVarOne.get() == 1 and chVarThree.get() == 1:
+        major = "综合监控、其他"
+    elif chVarThree.get() == 1 and chVarTwo.get() == 1:
+        major = "电力监控、其他"
+    elif chVarOne.get() == 1 and chVarTwo.get() == 1 and chVarThree.get() == 1:
+        major = "综合监控、电力监控、其他"
+    print(major)
 
 
-'''窗体控件'''
-# 标题显示
-lab = tk.Label(root, text='请选择你的爱好：')
-lab.grid(row=0, columnspan=3, sticky=tk.W)
+# 提取所选文件的绝对路径
+def ui_send_filepath():
+    filename = tkinter.filedialog.askopenfilename()
+    read_sheet(filename)
 
-# 多选框
-frm = tk.Frame(root)
-ck1 = tk.Checkbutton(frm, text='游泳', command=click_1)
-ck2 = tk.Checkbutton(frm, text='唱歌', command=click_2)
-ck3 = tk.Checkbutton(frm, text='旅游', command=click_3)
-ck1.grid(row=0)
-ck2.grid(row=0, column=1)
-ck3.grid(row=0, column=2)
-frm.grid(row=1)
 
-lab_msg = tk.Label(root, text='')
-lab_msg.grid(row=2, columnspan=3, sticky=tk.W)
+# ---------------------------------------------------------------------
+#   UI界面类
+#
+#
+# ---------------------------------------------------------------------
+
+# 主界面UI设计
+root = Tk()
+root.title('故障分析系统')
+root.geometry('640x320')
+ttk.Label(root, text="选择专业:").grid(column=1, row=0)
+
+# 设置专业复选框
+global chVarOne
+global chVarTwo
+global chVarThree
+
+chVarOne = tk.IntVar()
+check1 = tk.Checkbutton(root, text="综合监控", variable=chVarOne, offvalue=0, onvalue=1, command=selected_major)
+check1.deselect()
+check1.grid(column=0, row=4, sticky=tk.W)
+
+chVarTwo = tk.IntVar()
+check2 = tk.Checkbutton(root, text="电力监控", variable=chVarTwo, offvalue=0, onvalue=1, command=selected_major)
+check2.deselect()
+check2.grid(column=1, row=4, sticky=tk.W)
+
+chVarThree = tk.IntVar()
+check3 = tk.Checkbutton(root, text="其他", variable=chVarThree, offvalue=0, onvalue=1, command=selected_major)
+check3.deselect()
+check3.grid(column=2, row=4, sticky=tk.W)
+
+# 设置按钮并调用函数
+btn = Button(root, text='选择文件', command=ui_send_filepath).grid(row=320, column=640)
 
 root.mainloop()
+
